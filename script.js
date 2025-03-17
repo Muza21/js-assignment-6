@@ -14,9 +14,14 @@ class DataHandler {
     #posts = new Map();
 
     async fetchPosts(){
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-        const data = await response.json();
-        data.forEach(post=>this.#posts.set(post.id,post));
+        try{
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+            const data = await response.json();
+            data.forEach(post=>this.#posts.set(post.id,post));
+            return this.#posts;
+        }catch(err){
+            throw err;
+        }
     }
 
     listPosts(){
@@ -24,6 +29,9 @@ class DataHandler {
     }
     
     getPost(id){
+        if(!this.#posts.has(id)){
+            throw Error(`post with the id: ${id} not found`)
+        }
         return this.#posts.get(id);
     }
     
@@ -35,7 +43,7 @@ class DataHandler {
 const data = new DataHandler();
 await data.fetchPosts();
 console.log(data.listPosts());
-console.log(data.getPost(15));
+console.log(data.getPost(58));
 data.clearPosts()
 console.log(data.listPosts());
 })()
