@@ -30,7 +30,7 @@ class DataHandler {
     
     getPost(id){
         if(!this.#posts.has(id)){
-            throw Error(`post with the id: ${id} not found`)
+            return null;
         }
         return this.#posts.get(id);
     }
